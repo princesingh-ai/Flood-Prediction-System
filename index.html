@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Flood Prediction & Risk Mapping</title>
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>🌊 AI-Based Flood Prediction</h1>
+        <p>Explore locations and estimate flood probability using machine learning.</p>
+    </header>
+
+    <main class="container">
+        <section class="metrics-section">
+    <h2>📈 Model Performance</h2>
+
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <h3>R² Score</h3>
+            <p>~0.73</p>
+            <span>Test-set fit</span>
+        </div>
+
+        <div class="metric-card">
+            <h3>Mean Absolute Error</h3>
+            <p>~0.0205</p>
+            <span>MAE</span>
+        </div>
+
+        <div class="metric-card">
+            <h3>Mean Squared Error</h3>
+            <p>~0.0007</p>
+            <span>MSE</span>
+        </div>
+    </div>
+
+    <p class="metrics-note">
+        Approximate results from the current test split.
+        Performance on this dataset does not guarantee accuracy for
+        real-world locations or future flood events.
+    </p>
+</section>
+
+        <section class="card">
+            <h2>📍 Explore a Location</h2>
+
+            <div class="search-box">
+                <input
+                    type="text"
+                    id="locationInput"
+                    placeholder="Enter a city or place, e.g. Pune"
+                >
+
+                <button id="searchButton">Search</button>
+            </div>
+
+            <p id="locationStatus">
+                Search for a location to view it on the map.
+            </p>
+
+            <div id="map"></div>
+
+            <div class="location-details">
+    <h3>Selected Location Details</h3>
+
+    <p>
+        <strong>Location:</strong>
+        <span id="selectedLocation">Not selected</span>
+    </p>
+
+    <p>
+        <strong>Latitude:</strong>
+        <span id="latitude">—</span>
+    </p>
+
+    <p>
+        <strong>Longitude:</strong>
+        <span id="longitude">—</span>
+    </p>
+
+    <p>
+        <strong>Environmental Data:</strong>
+        <span id="environmentStatus">Not connected</span>
+    </p>
+
+    <p class="location-notice">
+        Selecting a location identifies its coordinates. It does not
+        automatically provide location-specific flood-risk data.
+    </p>
+</div>
+        </section>
+
+        <section class="card">
+            <h2>🧠 Flood Prediction Model</h2>
+
+            <p>
+                Enter values for the 20 model features. Use values appropriate
+                to your dataset's scale.
+            </p>
+
+            <p class="notice">
+                Important: The model uses dataset features, not the searched
+                location itself. Its output is an estimate and is not a
+                validated real-world flood probability.
+            </p>
+
+            <form id="predictionForm">
+                <div id="featureInputs" class="feature-grid"></div>
+
+                <button type="submit" id="predictButton">
+                    Predict Flood Probability
+                </button>
+            </form>
+
+            <div id="predictionResult" class="result" aria-live="polite">
+                Enter feature values and submit the form to see the model output.
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <section class="project-info">
+    <h2>About This Project</h2>
+
+    <p>
+        The AI-Based Flood Prediction System uses machine learning
+        to estimate a numerical output from environmental and
+        infrastructure-related features supplied by the user.
+    </p>
+
+    <h3>Technologies Used</h3>
+
+    <div class="technology-tags">
+        <span>Python</span>
+        <span>Scikit-learn</span>
+        <span>Random Forest</span>
+        <span>FastAPI</span>
+        <span>JavaScript</span>
+        <span>Leaflet Maps</span>
+        <span>OpenStreetMap</span>
+    </div>
+
+    <h3>Current Limitations</h3>
+
+    <p>
+        The map locates places, but the current model does not
+        automatically retrieve environmental data for those coordinates.
+        Predictions depend on the feature values entered by the user.
+        The model output is not a validated real-world flood probability.
+    </p>
+</section>
+        <p>Academic project demonstration | AI & Machine Learning</p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
