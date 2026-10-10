@@ -2,7 +2,11 @@
 // AI FLOOD PREDICTION SYSTEM
 // =====================================
 
-const API_URL = "http://127.0.0.1:8000";
+// Automatically detect environment:
+// - Local dev (Live Server): points to local FastAPI on http://127.0.0.1:8000
+// - Vercel / Production: uses relative path ("") on the same domain
+const isLocal = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost";
+const API_URL = isLocal && window.location.port !== "8000" && window.location.port !== "" ? "http://127.0.0.1:8000" : "";
 
 // All features used by the trained model
 const features = [
@@ -235,7 +239,9 @@ fill.style.width = `${Math.max(0, Math.min(100, estimate * 100))}%`;
 // CHECK BACKEND CONNECTION
 // =====================================
 
-fetch(`${API_URL}/`)
+const healthCheckUrl = API_URL ? `${API_URL}/` : `/health`;
+
+fetch(healthCheckUrl)
     .then(function (response) {
         if (!response.ok) {
             throw new Error("Backend is unavailable.");

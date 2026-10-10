@@ -12,18 +12,17 @@ app = FastAPI(
 )
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-    "http://127.0.0.1:5500",
-    "http://localhost:5500",
-    "https://sumanruchi410-ui.github.io"
-    ],
+    allow_origins=["*"],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # Load the trained model
 BASE_DIR = Path(__file__).resolve().parent
-MODEL_PATH = BASE_DIR / "models" / "flood_model.pkl"
+MODEL_PATH = BASE_DIR / "models" / "flood_model_small.pkl"
+if not MODEL_PATH.exists():
+    MODEL_PATH = BASE_DIR / "models" / "flood_model.pkl"
 
 saved_data = joblib.load(MODEL_PATH)
 model = saved_data["model"]
@@ -35,6 +34,8 @@ class FloodInput(BaseModel):
 
 
 @app.get("/")
+@app.get("/health")
+@app.get("/api")
 def home():
     return {
         "message": "Flood Prediction API is running",
