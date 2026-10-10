@@ -36,7 +36,9 @@ print("Testing samples:", len(X_test))
 
 # Create and train the model
 model = RandomForestRegressor(
-    n_estimators=100,
+    n_estimators=20,
+    max_depth=12,
+    min_samples_leaf=2,
     random_state=42,
     n_jobs=-1
 )
@@ -62,7 +64,7 @@ os.makedirs("backend/models", exist_ok=True)
 
 # Save the trained model and feature names
 
-MODEL_DIR = BASE_DIR / "models"
+MODEL_PATH = BASE_DIR / "models" / "flood_model_small.pkl"
 MODEL_DIR.mkdir(parents=True, exist_ok=True)
 
 model_data = {
@@ -70,7 +72,7 @@ model_data = {
     "features": X.columns.tolist()
 }
 
-model_path = MODEL_DIR / "flood_model.pkl"
+model_path = MODEL_DIR / "flood_model_small.pkl"
 
 joblib.dump(model_data, model_path)
 
