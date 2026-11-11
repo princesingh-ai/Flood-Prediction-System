@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Ruchi Suman, Shruti Singh, Hunny Pandey, Pranjal K. Sonawane">
 
-    <title>AI Flood Prediction & Risk Mapping</title>
+    <title>AI Flood Prediction &amp; Risk Mapping</title>
 
     <link rel="stylesheet"
           href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
@@ -14,6 +15,14 @@
 
 <body>
 
+    <!--
+        AI-Based Flood Prediction System
+        Frontend markup for location search, model metrics, and prediction.
+
+        Authors: Ruchi Suman, Shruti Singh, Hunny Pandey, Pranjal K. Sonawane
+        Copyright (c) 2026 Team Solvix. All rights reserved.
+    -->
+
     <header>
         <h1>🌊 AI-Based Flood Prediction</h1>
         <p>Explore locations and estimate flood probability using machine learning.</p>
@@ -21,34 +30,34 @@
 
     <main class="container">
         <section class="metrics-section">
-    <h2>📈 Model Performance</h2>
+            <h2>📈 Model Performance</h2>
 
-    <div class="metrics-grid">
-        <div class="metric-card">
-            <h3>R² Score</h3>
-            <p>~0.73</p>
-            <span>Test-set fit</span>
-        </div>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <h3>R² Score</h3>
+                    <p>~0.73</p>
+                    <span>Test-set fit</span>
+                </div>
 
-        <div class="metric-card">
-            <h3>Mean Absolute Error</h3>
-            <p>~0.0205</p>
-            <span>MAE</span>
-        </div>
+                <div class="metric-card">
+                    <h3>Mean Absolute Error</h3>
+                    <p>~0.0205</p>
+                    <span>MAE</span>
+                </div>
 
-        <div class="metric-card">
-            <h3>Mean Squared Error</h3>
-            <p>~0.0007</p>
-            <span>MSE</span>
-        </div>
-    </div>
+                <div class="metric-card">
+                    <h3>Mean Squared Error</h3>
+                    <p>~0.0007</p>
+                    <span>MSE</span>
+                </div>
+            </div>
 
-    <p class="metrics-note">
-        Approximate results from the current test split.
-        Performance on this dataset does not guarantee accuracy for
-        real-world locations or future flood events.
-    </p>
-</section>
+            <p class="metrics-note">
+                Approximate results from the current test split.
+                Performance on this dataset does not guarantee accuracy for
+                real-world locations or future flood events.
+            </p>
+        </section>
 
         <section class="card">
             <h2>📍 Explore a Location</h2>
@@ -70,33 +79,33 @@
             <div id="map"></div>
 
             <div class="location-details">
-    <h3>Selected Location Details</h3>
+                <h3>Selected Location Details</h3>
 
-    <p>
-        <strong>Location:</strong>
-        <span id="selectedLocation">Not selected</span>
-    </p>
+                <p>
+                    <strong>Location:</strong>
+                    <span id="selectedLocation">Not selected</span>
+                </p>
 
-    <p>
-        <strong>Latitude:</strong>
-        <span id="latitude">—</span>
-    </p>
+                <p>
+                    <strong>Latitude:</strong>
+                    <span id="latitude">—</span>
+                </p>
 
-    <p>
-        <strong>Longitude:</strong>
-        <span id="longitude">—</span>
-    </p>
+                <p>
+                    <strong>Longitude:</strong>
+                    <span id="longitude">—</span>
+                </p>
 
-    <p>
-        <strong>Environmental Data:</strong>
-        <span id="environmentStatus">Not connected</span>
-    </p>
+                <p>
+                    <strong>Environmental Data:</strong>
+                    <span id="environmentStatus">Not connected</span>
+                </p>
 
-    <p class="location-notice">
-        Selecting a location identifies its coordinates. It does not
-        automatically provide location-specific flood-risk data.
-    </p>
-</div>
+                <p class="location-notice">
+                    Selecting a location identifies its coordinates. It does not
+                    automatically provide location-specific flood-risk data.
+                </p>
+            </div>
         </section>
 
         <section class="card">
@@ -125,41 +134,42 @@
                 Enter feature values and submit the form to see the model output.
             </div>
         </section>
-
     </main>
 
     <footer>
         <section class="project-info">
-    <h2>About This Project</h2>
+            <h2>About This Project</h2>
 
-    <p>
-        The AI-Based Flood Prediction System uses machine learning
-        to estimate a numerical output from environmental and
-        infrastructure-related features supplied by the user.
-    </p>
+            <p>
+                The AI-Based Flood Prediction System uses machine learning
+                to estimate a numerical output from environmental and
+                infrastructure-related features supplied by the user.
+            </p>
 
-    <h3>Technologies Used</h3>
+            <h3>Technologies Used</h3>
 
-    <div class="technology-tags">
-        <span>Python</span>
-        <span>Scikit-learn</span>
-        <span>Random Forest</span>
-        <span>FastAPI</span>
-        <span>JavaScript</span>
-        <span>Leaflet Maps</span>
-        <span>OpenStreetMap</span>
-    </div>
+            <div class="technology-tags">
+                <span>Python</span>
+                <span>Scikit-learn</span>
+                <span>Random Forest</span>
+                <span>FastAPI</span>
+                <span>JavaScript</span>
+                <span>Leaflet Maps</span>
+                <span>OpenStreetMap</span>
+            </div>
 
-    <h3>Current Limitations</h3>
+            <h3>Current Limitations</h3>
 
-    <p>
-        The map locates places, but the current model does not
-        automatically retrieve environmental data for those coordinates.
-        Predictions depend on the feature values entered by the user.
-        The model output is not a validated real-world flood probability.
-    </p>
-</section>
-        <p>Academic project demonstration | AI & Machine Learning</p>
+            <p>
+                The map locates places, but the current model does not
+                automatically retrieve environmental data for those coordinates.
+                Predictions depend on the feature values entered by the user.
+                The model output is not a validated real-world flood probability.
+            </p>
+        </section>
+
+        <p>Academic project demonstration | AI &amp; Machine Learning</p>
+        <p>Team Solvix | Ruchi Suman, Shruti Singh, Hunny Pandey, Pranjal K. Sonawane</p>
     </footer>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

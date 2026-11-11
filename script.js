@@ -1,14 +1,23 @@
-// =====================================
-// AI FLOOD PREDICTION SYSTEM
-// =====================================
+/*
+ * AI-Based Flood Prediction System
+ * Frontend logic for location search and flood probability prediction.
+ *
+ * Authors: Ruchi Suman, Shruti Singh, Hunny Pandey, Pranjal K. Sonawane
+ * Copyright (c) 2026 Team Solvix. All rights reserved.
+ */
 
-// Automatically detect environment:
-// - Local dev (Live Server): points to local FastAPI on http://127.0.0.1:8000
-// - Vercel / Production: uses relative path ("") on the same domain
-const isLocal = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost";
-const API_URL = isLocal && window.location.port !== "8000" && window.location.port !== "" ? "http://127.0.0.1:8000" : "";
+// Local development runs on a different port, so requests go to the FastAPI
+// server on port 8000. Production uses same-origin requests.
+const isLocal =
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname === "localhost";
 
-// All features used by the trained model
+const API_URL =
+    isLocal && window.location.port !== "8000" && window.location.port !== ""
+        ? "http://127.0.0.1:8000"
+        : "";
+
+// Feature names and order must match the trained model.
 const features = [
     "MonsoonIntensity",
     "TopographyDrainage",
@@ -29,26 +38,20 @@ const features = [
     "PopulationScore",
     "WetlandLoss",
     "InadequatePlanning",
-    "PoliticalFactors"
+    "PoliticalFactors",
 ];
 
-// =====================================
-// MAP SETUP
-// =====================================
-
+// Set up the map and load OpenStreetMap tiles.
 const map = L.map("map").setView([20, 0], 2);
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: "&copy; OpenStreetMap contributors",
-    maxZoom: 19
+    maxZoom: 19,
 }).addTo(map);
 
 let locationMarker = null;
 
-// =====================================
-// LOCATION SEARCH
-// =====================================
-
+// Location search
 const locationInput = document.getElementById("locationInput");
 const searchButton = document.getElementById("searchButton");
 const locationStatus = document.getElementById("locationStatus");
@@ -76,6 +79,7 @@ async function searchLocation() {
     locationStatus.textContent = "Searching for location...";
 
     try {
+        // Nominatim converts the place name into coordinates for the map.
         const url =
             "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" +
             encodeURIComponent(place);
@@ -115,7 +119,6 @@ async function searchLocation() {
         document.getElementById("longitude").textContent = lon.toFixed(5);
 
         locationStatus.textContent = "Location found successfully.";
-
     } catch (error) {
         locationStatus.textContent =
             "Could not search for this location. Check your internet connection.";
@@ -123,10 +126,8 @@ async function searchLocation() {
     }
 }
 
-// =====================================
-// CREATE INPUT FIELDS
-// =====================================
-
+// Build the form inputs from the feature list so they stay in sync with
+// the model.
 const featureInputs = document.getElementById("featureInputs");
 
 features.forEach(function (feature) {
@@ -149,10 +150,7 @@ features.forEach(function (feature) {
     featureInputs.appendChild(label);
 });
 
-// =====================================
-// FLOOD PREDICTION
-// =====================================
-
+// Flood prediction
 const predictionForm = document.getElementById("predictionForm");
 const predictionResult = document.getElementById("predictionResult");
 
@@ -177,14 +175,15 @@ predictionForm.addEventListener("submit", async function (event) {
     predictionResult.textContent = "Generating model estimate...";
 
     try {
+        // Send all feature values in the shape the API expects.
         const response = await fetch(`${API_URL}/predict`, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                features: inputValues
-            })
+                features: inputValues,
+            }),
         });
 
         const result = await response.json();
@@ -199,46 +198,42 @@ predictionForm.addEventListener("submit", async function (event) {
 
         const estimate = Number(result.estimated_flood_probability);
 
-predictionResult.className = "result";
+        predictionResult.className = "result";
 
-predictionResult.innerHTML = `
-    <h3>📊 Model Prediction Result</h3>
+        predictionResult.innerHTML = `
+            <h3>📊 Model Prediction Result</h3>
 
-    <p class="prediction-value">
-        Model output: ${estimate.toFixed(4)}
-    </p>
+            <p class="prediction-value">
+                Model output: ${estimate.toFixed(4)}
+            </p>
 
-    <div class="prediction-bar">
-        <div class="prediction-fill"></div>
-    </div>
+            <div class="prediction-bar">
+                <div class="prediction-fill"></div>
+            </div>
 
-    <p class="prediction-note">
-        ${result.note || "This is a model estimate."}
-    </p>
+            <p class="prediction-note">
+                ${result.note || "This is a model estimate."}
+            </p>
 
-    <p class="prediction-warning">
-        ⚠️ This output is not a validated real-world flood probability
-        and should not be used for emergency or safety decisions.
-    </p>
-`;
+            <p class="prediction-warning">
+                ⚠️ This output is not a validated real-world flood probability
+                and should not be used for emergency or safety decisions.
+            </p>
+        `;
 
-const fill = predictionResult.querySelector(".prediction-fill");
+        const fill = predictionResult.querySelector(".prediction-fill");
 
-// Display the output visually; this is NOT a calibrated risk score.
-fill.style.width = `${Math.max(0, Math.min(100, estimate * 100))}%`;
-
+        // Keep the bar inside its container. The bar is only a visual aid;
+        // the model output is not a calibrated risk score.
+        fill.style.width = `${Math.max(0, Math.min(100, estimate * 100))}%`;
     } catch (error) {
-        predictionResult.textContent =
-            "Prediction failed: " + error.message;
+        predictionResult.textContent = "Prediction failed: " + error.message;
 
         console.error(error);
     }
 });
 
-// =====================================
-// CHECK BACKEND CONNECTION
-// =====================================
-
+// Check that the backend is reachable when the page loads.
 const healthCheckUrl = API_URL ? `${API_URL}/` : `/health`;
 
 fetch(healthCheckUrl)

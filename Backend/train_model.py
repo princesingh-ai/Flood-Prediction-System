@@ -1,80 +1,87 @@
-import pandas as pd
-import os
-import joblib
+#!/usr/bin/env python3
+"""Train the Random Forest model used by the flood prediction API.
 
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+Run this script directly to rebuild the serialized model. All paths are
+resolved relative to this file, so it works from any working directory.
 
-# Load dataset
+Authors: Ruchi Suman, Shruti Singh, Hunny Pandey, Pranjal K. Sonawane
+Copyright (c) 2026 Team Solvix. All rights reserved.
+"""
+
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent
-file_path = BASE_DIR / "Data" / "datasetFlood.csv"
+import joblib
+import pandas as pd
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
 
-data = pd.read_csv(file_path)
+BASE_DIR = Path(__file__).resolve().parent
+DATASET_PATH = BASE_DIR / "Data" / "datasetFlood.csv"
+MODEL_DIR = BASE_DIR / "models"
+MODEL_PATH = MODEL_DIR / "flood_model_small.pkl"
+
+# Load the dataset from the repository so every training run starts
+# from the same source file.
+data = pd.read_csv(DATASET_PATH)
 
 print("Dataset loaded successfully:", data.shape)
 print("Dataset columns:", data.columns.tolist())
 
-print("Dataset loaded:", data.shape)
-
-# Separate input features and target
+# FloodProbability is the target; the remaining columns are the inputs.
 X = data.drop("FloodProbability", axis=1)
 y = data["FloodProbability"]
 
-# Convert categorical columns if present
+# The current dataset is fully numeric, but this step keeps the pipeline
+# ready for categorical columns.
 X = pd.get_dummies(X, drop_first=True)
 
-# Split the dataset
+# A fixed random state keeps the train/test split reproducible.
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
+    X,
+    y,
+    test_size=0.2,
+    random_state=42,
 )
 
 print("Training samples:", len(X_train))
 print("Testing samples:", len(X_test))
 
-# Create and train the model
+# A relatively small forest keeps the serialized model light enough to
+# ship with the application.
 model = RandomForestRegressor(
     n_estimators=20,
     max_depth=12,
     min_samples_leaf=2,
     random_state=42,
-    n_jobs=-1
+    n_jobs=-1,
 )
 
 print("\nTraining model...")
 model.fit(X_train, y_train)
 
-# Make predictions
+# Evaluate on the held-out split so the reported metrics reflect data
+# the model did not see during training.
 predictions = model.predict(X_test)
 
-# Evaluate model
 mae = mean_absolute_error(y_test, predictions)
 mse = mean_squared_error(y_test, predictions)
 r2 = r2_score(y_test, predictions)
 
-print("\n===== MODEL EVALUATION =====")
+print("\nModel evaluation:")
 print(f"Mean Absolute Error: {mae:.4f}")
 print(f"Mean Squared Error: {mse:.4f}")
 print(f"R2 Score: {r2:.4f}")
 
-# Save model and feature columns
-os.makedirs("backend/models", exist_ok=True)
-
-# Save the trained model and feature names
-
-MODEL_PATH = BASE_DIR / "models" / "flood_model_small.pkl"
+# The API needs the feature order as well as the model, so both are
+# stored in the same joblib file.
 MODEL_DIR.mkdir(parents=True, exist_ok=True)
 
 model_data = {
     "model": model,
-    "features": X.columns.tolist()
+    "features": X.columns.tolist(),
 }
 
-model_path = MODEL_DIR / "flood_model_small.pkl"
+joblib.dump(model_data, MODEL_PATH)
 
-joblib.dump(model_data, model_path)
-
-print(f"\nModel saved successfully to: {model_path}")
-
+print(f"\nModel saved successfully to: {MODEL_PATH}")

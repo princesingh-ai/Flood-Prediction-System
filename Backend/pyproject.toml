@@ -1,0 +1,19 @@
+[project]
+name = "flood-prediction-backend"
+version = "1.0.0"
+description = "FastAPI backend for the AI-Based Flood Prediction System"
+authors = [
+    { name = "Ruchi Suman" },
+    { name = "Shruti Singh" },
+    { name = "Hunny Pandey" },
+    { name = "Pranjal K. Sonawane" },
+]
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi",
+    "joblib",
+    "numpy",
+    "pandas",
+    "scikit-learn==1.9.1",
+    "uvicorn",
+]

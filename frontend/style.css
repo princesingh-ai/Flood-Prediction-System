@@ -1,6 +1,12 @@
-/* =================================
-   GENERAL STYLING
-================================= */
+/*
+ * AI-Based Flood Prediction System
+ * Styles for the location search, prediction form, and result display.
+ *
+ * Authors: Ruchi Suman, Shruti Singh, Hunny Pandey, Pranjal K. Sonawane
+ * Copyright (c) 2026 Team Solvix. All rights reserved.
+ */
+
+/* General Styling */
 
 * {
     box-sizing: border-box;
@@ -15,9 +21,7 @@ body {
     line-height: 1.6;
 }
 
-/* =================================
-   HEADER
-================================= */
+/* Header */
 
 header {
     background: linear-gradient(135deg, #063b5c, #087e8b);
@@ -36,9 +40,7 @@ header p {
     opacity: 0.95;
 }
 
-/* =================================
-   MAIN LAYOUT
-================================= */
+/* Main Layout */
 
 .container {
     max-width: 1200px;
@@ -68,9 +70,7 @@ header p {
     margin-bottom: 15px;
 }
 
-/* =================================
-   LOCATION SEARCH
-================================= */
+/* Location Search */
 
 .search-box {
     display: flex;
@@ -97,9 +97,7 @@ input:focus {
     border-color: #0284c7;
 }
 
-/* =================================
-   BUTTONS
-================================= */
+/* Buttons */
 
 button {
     border: none;
@@ -133,9 +131,7 @@ button:focus-visible {
     background: #05603a;
 }
 
-/* =================================
-   MAP
-================================= */
+/* Map */
 
 #map {
     width: 100%;
@@ -151,9 +147,7 @@ button:focus-visible {
     font-size: 14px;
 }
 
-/* =================================
-   LOCATION DETAILS
-================================= */
+/* Location Details */
 
 .location-details {
     background: #f0f9ff;
@@ -167,9 +161,7 @@ button:focus-visible {
     font-size: 14px;
 }
 
-/* =================================
-   FEATURE INPUTS
-================================= */
+/* Feature Inputs */
 
 .feature-grid {
     display: grid;
@@ -191,9 +183,7 @@ button:focus-visible {
     font-weight: normal;
 }
 
-/* =================================
-   IMPORTANT NOTICE
-================================= */
+/* Important Notice */
 
 .notice {
     padding: 12px;
@@ -204,9 +194,7 @@ button:focus-visible {
     color: #7c4512;
 }
 
-/* =================================
-   PREDICTION RESULT
-================================= */
+/* Prediction Result */
 
 .result {
     margin-top: 18px;
@@ -220,9 +208,7 @@ button:focus-visible {
     min-height: 65px;
 }
 
-/* =================================
-   FOOTER
-================================= */
+/* Footer */
 
 footer {
     text-align: center;
@@ -231,9 +217,7 @@ footer {
     font-size: 13px;
 }
 
-/* =================================
-   RESPONSIVE DESIGN
-================================= */
+/* Responsive Design */
 
 @media (max-width: 850px) {
     .container {
@@ -268,7 +252,7 @@ footer {
     }
 }
 
-/* Prediction visualization */
+/* Prediction Visualization */
 
 .prediction-value {
     font-size: 22px;
@@ -306,7 +290,7 @@ footer {
     border-radius: 6px;
 }
 
-/* Model performance dashboard */
+/* Model Performance Dashboard */
 
 .metrics-section {
     max-width: 1200px;
@@ -366,7 +350,7 @@ footer {
     }
 }
 
-/* Project information section */
+/* Project Information */
 
 .project-info {
     max-width: 1160px;
